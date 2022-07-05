@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x29317348D687B86B
 #
 Name     : bemenu
-Version  : 0.6.8
-Release  : 2
-URL      : https://github.com/Cloudef/bemenu/releases/download/0.6.8/bemenu-0.6.8.tar.gz
-Source0  : https://github.com/Cloudef/bemenu/releases/download/0.6.8/bemenu-0.6.8.tar.gz
-Source1  : https://github.com/Cloudef/bemenu/releases/download/0.6.8/bemenu-0.6.8.tar.gz.asc
+Version  : 0.6.9
+Release  : 3
+URL      : https://github.com/Cloudef/bemenu/releases/download/0.6.9/bemenu-0.6.9.tar.gz
+Source0  : https://github.com/Cloudef/bemenu/releases/download/0.6.9/bemenu-0.6.9.tar.gz
+Source1  : https://github.com/Cloudef/bemenu/releases/download/0.6.9/bemenu-0.6.9.tar.gz.asc
 Summary  : Dynamic menu library
 Group    : Development/Tools
 License  : GPL-3.0 LGPL-3.0
@@ -42,15 +42,15 @@ license components for the bemenu package.
 
 
 %prep
-%setup -q -n bemenu-0.6.8
-cd %{_builddir}/bemenu-0.6.8
+%setup -q -n bemenu-0.6.9
+cd %{_builddir}/bemenu-0.6.9
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1656692689
+export SOURCE_DATE_EPOCH=1657031544
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -63,11 +63,11 @@ make  %{?_smp_mflags}
 
 
 %install
-export SOURCE_DATE_EPOCH=1656692689
+export SOURCE_DATE_EPOCH=1657031544
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/bemenu
-cp %{_builddir}/bemenu-0.6.8/LICENSE-CLIENT %{buildroot}/usr/share/package-licenses/bemenu/8624bcdae55baeef00cd11d5dfcfa60f68710a02
-cp %{_builddir}/bemenu-0.6.8/LICENSE-LIB %{buildroot}/usr/share/package-licenses/bemenu/f45ee1c765646813b442ca58de72e20a64a7ddba
+cp %{_builddir}/bemenu-0.6.9/LICENSE-CLIENT %{buildroot}/usr/share/package-licenses/bemenu/8624bcdae55baeef00cd11d5dfcfa60f68710a02
+cp %{_builddir}/bemenu-0.6.9/LICENSE-LIB %{buildroot}/usr/share/package-licenses/bemenu/f45ee1c765646813b442ca58de72e20a64a7ddba
 %make_install
 
 %files
