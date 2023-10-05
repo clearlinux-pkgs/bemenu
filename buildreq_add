@@ -2,3 +2,12 @@
 # picked up automatically. One name per line, no whitespace.
 scdoc
 wayland
+wayland-protocols
+git 
+ncurses-dev
+wlroots-dev
+wayland-protocols-dev
+wayland-dev
+libX11-dev
+libxkbcommon-dev
+pango-dev

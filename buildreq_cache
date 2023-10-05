@@ -1,11 +1,8 @@
-0.6.14
+0.6.16
 pkgconfig(cairo)
 pkgconfig(ncurses)
 pkgconfig(ncursesw)
 pkgconfig(pango)
 pkgconfig(pangocairo)
-pkgconfig(wayland-client)
-pkgconfig(wayland-protocols)
 pkgconfig(x11)
 pkgconfig(xinerama)
-pkgconfig(xkbcommon)
