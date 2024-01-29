@@ -1,8 +1,0 @@
-0.6.16
-pkgconfig(cairo)
-pkgconfig(ncurses)
-pkgconfig(ncursesw)
-pkgconfig(pango)
-pkgconfig(pangocairo)
-pkgconfig(x11)
-pkgconfig(xinerama)
