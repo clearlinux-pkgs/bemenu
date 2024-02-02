@@ -8,11 +8,11 @@
 # Source0 file verified with key 0x29317348D687B86B
 #
 Name     : bemenu
-Version  : 0.6.17
-Release  : 11
-URL      : https://github.com/Cloudef/bemenu/releases/download/0.6.17/bemenu-0.6.17.tar.gz
-Source0  : https://github.com/Cloudef/bemenu/releases/download/0.6.17/bemenu-0.6.17.tar.gz
-Source1  : https://github.com/Cloudef/bemenu/releases/download/0.6.17/bemenu-0.6.17.tar.gz.asc
+Version  : 0.6.19
+Release  : 12
+URL      : https://github.com/Cloudef/bemenu/releases/download/0.6.19/bemenu-0.6.19.tar.gz
+Source0  : https://github.com/Cloudef/bemenu/releases/download/0.6.19/bemenu-0.6.19.tar.gz
+Source1  : https://github.com/Cloudef/bemenu/releases/download/0.6.19/bemenu-0.6.19.tar.gz.asc
 Summary  : Dynamic menu library
 Group    : Development/Tools
 License  : GPL-3.0 LGPL-3.0
@@ -47,10 +47,10 @@ license components for the bemenu package.
 
 
 %prep
-%setup -q -n bemenu-0.6.17
-cd %{_builddir}/bemenu-0.6.17
+%setup -q -n bemenu-0.6.19
+cd %{_builddir}/bemenu-0.6.19
 pushd ..
-cp -a bemenu-0.6.17 buildavx2
+cp -a bemenu-0.6.19 buildavx2
 popd
 
 %build
@@ -58,7 +58,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1706540969
+export SOURCE_DATE_EPOCH=1706886774
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -99,7 +99,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1706540969
+export SOURCE_DATE_EPOCH=1706886774
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/bemenu
 cp %{_builddir}/bemenu-%{version}/LICENSE-CLIENT %{buildroot}/usr/share/package-licenses/bemenu/8624bcdae55baeef00cd11d5dfcfa60f68710a02 || :
