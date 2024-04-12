@@ -9,7 +9,7 @@
 #
 Name     : bemenu
 Version  : 0.6.21
-Release  : 15
+Release  : 16
 URL      : https://github.com/Cloudef/bemenu/releases/download/0.6.21/bemenu-0.6.21.tar.gz
 Source0  : https://github.com/Cloudef/bemenu/releases/download/0.6.21/bemenu-0.6.21.tar.gz
 Source1  : https://github.com/Cloudef/bemenu/releases/download/0.6.21/bemenu-0.6.21.tar.gz.asc
@@ -17,7 +17,11 @@ Source2  : 29317348D687B86B.pkey
 Summary  : Dynamic menu library
 Group    : Development/Tools
 License  : GPL-3.0 LGPL-3.0
+Requires: bemenu-bin = %{version}-%{release}
+Requires: bemenu-lib = %{version}-%{release}
 Requires: bemenu-license = %{version}-%{release}
+Requires: bemenu-man = %{version}-%{release}
+Requires: bemenu-plugins = %{version}-%{release}
 BuildRequires : git
 BuildRequires : gnupg
 BuildRequires : libX11-dev
@@ -40,12 +44,58 @@ bemenu
 Dynamic menu library and client program inspired by dmenu
 ![preview](.github/preview.svg)
 
+%package bin
+Summary: bin components for the bemenu package.
+Group: Binaries
+Requires: bemenu-license = %{version}-%{release}
+
+%description bin
+bin components for the bemenu package.
+
+
+%package dev
+Summary: dev components for the bemenu package.
+Group: Development
+Requires: bemenu-lib = %{version}-%{release}
+Requires: bemenu-bin = %{version}-%{release}
+Provides: bemenu-devel = %{version}-%{release}
+Requires: bemenu = %{version}-%{release}
+
+%description dev
+dev components for the bemenu package.
+
+
+%package lib
+Summary: lib components for the bemenu package.
+Group: Libraries
+Requires: bemenu-license = %{version}-%{release}
+
+%description lib
+lib components for the bemenu package.
+
+
 %package license
 Summary: license components for the bemenu package.
 Group: Default
 
 %description license
 license components for the bemenu package.
+
+
+%package man
+Summary: man components for the bemenu package.
+Group: Default
+
+%description man
+man components for the bemenu package.
+
+
+%package plugins
+Summary: plugins components for the bemenu package.
+Group: Default
+
+%description plugins
+plugins components for the bemenu package.
 
 
 %prep
@@ -65,7 +115,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1712938427
+export SOURCE_DATE_EPOCH=1712938597
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -108,7 +158,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1712938427
+export SOURCE_DATE_EPOCH=1712938597
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/bemenu
 cp %{_builddir}/bemenu-%{version}/LICENSE-CLIENT %{buildroot}/usr/share/package-licenses/bemenu/8624bcdae55baeef00cd11d5dfcfa60f68710a02 || :
@@ -116,16 +166,42 @@ cp %{_builddir}/bemenu-%{version}/LICENSE-LIB %{buildroot}/usr/share/package-lic
 export GOAMD64=v2
 GOAMD64=v3
 pushd ../buildavx2/
-%make_install_v3 PREFIX=/usr DESTDIR=%{_buildroot}
+%make_install_v3 PREFIX=/usr DESTDIR=%{buildroot}
 popd
 GOAMD64=v2
-%make_install PREFIX=/usr DESTDIR=%{_buildroot}
+%make_install PREFIX=/usr DESTDIR=%{buildroot}
 /usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
 
+%files bin
+%defattr(-,root,root,-)
+/usr/bin/bemenu
+/usr/bin/bemenu-run
+
+%files dev
+%defattr(-,root,root,-)
+/usr/include/bemenu.h
+/usr/lib/libbemenu.so
+/usr/lib64/pkgconfig/bemenu.pc
+
+%files lib
+%defattr(-,root,root,-)
+/usr/lib/bemenu/bemenu-renderer-curses.so
+/usr/lib/bemenu/bemenu-renderer-wayland.so
+/usr/lib/bemenu/bemenu-renderer-x11.so
+
 %files license
 %defattr(0644,root,root,0755)
 /usr/share/package-licenses/bemenu/8624bcdae55baeef00cd11d5dfcfa60f68710a02
 /usr/share/package-licenses/bemenu/f45ee1c765646813b442ca58de72e20a64a7ddba
+
+%files man
+%defattr(0644,root,root,0755)
+/usr/share/man/man1/bemenu.1
+
+%files plugins
+%defattr(-,root,root,-)
+/usr/lib/libbemenu.so.0
+/usr/lib/libbemenu.so.0.6.21

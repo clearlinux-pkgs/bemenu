@@ -1,1 +1,1 @@
-PREFIX=/usr DESTDIR=%{_buildroot}
+PREFIX=/usr DESTDIR=%{buildroot}
