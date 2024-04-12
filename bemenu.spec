@@ -9,7 +9,7 @@
 #
 Name     : bemenu
 Version  : 0.6.21
-Release  : 16
+Release  : 17
 URL      : https://github.com/Cloudef/bemenu/releases/download/0.6.21/bemenu-0.6.21.tar.gz
 Source0  : https://github.com/Cloudef/bemenu/releases/download/0.6.21/bemenu-0.6.21.tar.gz
 Source1  : https://github.com/Cloudef/bemenu/releases/download/0.6.21/bemenu-0.6.21.tar.gz.asc
@@ -21,7 +21,6 @@ Requires: bemenu-bin = %{version}-%{release}
 Requires: bemenu-lib = %{version}-%{release}
 Requires: bemenu-license = %{version}-%{release}
 Requires: bemenu-man = %{version}-%{release}
-Requires: bemenu-plugins = %{version}-%{release}
 BuildRequires : git
 BuildRequires : gnupg
 BuildRequires : libX11-dev
@@ -90,14 +89,6 @@ Group: Default
 man components for the bemenu package.
 
 
-%package plugins
-Summary: plugins components for the bemenu package.
-Group: Default
-
-%description plugins
-plugins components for the bemenu package.
-
-
 %prep
 mkdir .gnupg
 chmod 700 .gnupg
@@ -106,16 +97,13 @@ gpg --homedir .gnupg --status-fd 1 --verify %{SOURCE1} %{SOURCE0} > gpg.status
 grep -E '^\[GNUPG:\] (GOODSIG|EXPKEYSIG) 29317348D687B86B' gpg.status
 %setup -q -n bemenu-0.6.21
 cd %{_builddir}/bemenu-0.6.21
-pushd ..
-cp -a bemenu-0.6.21 buildavx2
-popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1712938597
+export SOURCE_DATE_EPOCH=1712940362
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -133,15 +121,6 @@ LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
 export GOAMD64=v2
 make  PREFIX=/usr
 
-pushd ../buildavx2
-GOAMD64=v3
-CFLAGS="$CLEAR_INTERMEDIATE_CFLAGS -march=x86-64-v3 -Wl,-z,x86-64-v3 "
-CXXFLAGS="$CLEAR_INTERMEDIATE_CXXFLAGS -march=x86-64-v3 -Wl,-z,x86-64-v3 "
-FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS -march=x86-64-v3 -Wl,-z,x86-64-v3 "
-FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS -march=x86-64-v3 "
-LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS -march=x86-64-v3 "
-make  PREFIX=/usr
-popd
 
 %install
 export GCC_IGNORE_WERROR=1
@@ -158,19 +137,18 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1712938597
+export SOURCE_DATE_EPOCH=1712940362
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/bemenu
 cp %{_builddir}/bemenu-%{version}/LICENSE-CLIENT %{buildroot}/usr/share/package-licenses/bemenu/8624bcdae55baeef00cd11d5dfcfa60f68710a02 || :
 cp %{_builddir}/bemenu-%{version}/LICENSE-LIB %{buildroot}/usr/share/package-licenses/bemenu/f45ee1c765646813b442ca58de72e20a64a7ddba || :
 export GOAMD64=v2
-GOAMD64=v3
-pushd ../buildavx2/
-%make_install_v3 PREFIX=/usr DESTDIR=%{buildroot}
-popd
 GOAMD64=v2
 %make_install PREFIX=/usr DESTDIR=%{buildroot}
-/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
+## install_append content
+mkdir -p %{buildroot}/usr/lib64
+mv %{buildroot}/usr/lib/* %{buildroot}/usr/lib64
+## install_append end
 
 %files
 %defattr(-,root,root,-)
@@ -183,14 +161,16 @@ GOAMD64=v2
 %files dev
 %defattr(-,root,root,-)
 /usr/include/bemenu.h
-/usr/lib/libbemenu.so
+/usr/lib64/libbemenu.so
 /usr/lib64/pkgconfig/bemenu.pc
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib/bemenu/bemenu-renderer-curses.so
-/usr/lib/bemenu/bemenu-renderer-wayland.so
-/usr/lib/bemenu/bemenu-renderer-x11.so
+/usr/lib64/bemenu/bemenu-renderer-curses.so
+/usr/lib64/bemenu/bemenu-renderer-wayland.so
+/usr/lib64/bemenu/bemenu-renderer-x11.so
+/usr/lib64/libbemenu.so.0
+/usr/lib64/libbemenu.so.0.6.21
 
 %files license
 %defattr(0644,root,root,0755)
@@ -200,8 +180,3 @@ GOAMD64=v2
 %files man
 %defattr(0644,root,root,0755)
 /usr/share/man/man1/bemenu.1
-
-%files plugins
-%defattr(-,root,root,-)
-/usr/lib/libbemenu.so.0
-/usr/lib/libbemenu.so.0.6.21
